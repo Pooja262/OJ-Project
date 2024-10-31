@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Problem{% endblock %}
+
+{% block content %}
+<h1>Create a New Problem</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Problem</button>
+</form>
+{% endblock %}

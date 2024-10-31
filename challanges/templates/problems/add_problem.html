@@ -1,0 +1,12 @@
+<!-- add_problem.html -->
+{% extends 'base.html' %}
+{% block title %}Add Problem{% endblock %}
+
+{% block content %}
+<h2>Add New Challenge</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Problem</button>
+</form>
+{% endblock %}

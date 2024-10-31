@@ -1,0 +1,32 @@
+<!-- problem_list.html -->
+{% extends 'base.html' %}
+{% block title %}Challenges{% endblock %}
+
+{% block content %}
+<h2>Coding Challenges</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Difficulty</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for problem in problems %}
+        <tr>
+            <td>{{ problem.title }}</td>
+            <td>{{ problem.description|truncatewords:20 }}</td>
+            <td>{{ problem.get_difficulty_display }}</td>
+            <td><a href="{% url 'problem_detail' problem.id %}">View Details</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- problem_list.html -->
+{% if user.is_staff %}
+    <a href="{% url 'add_problem' %}" class="btn btn-primary">Add New Challenge</a>
+{% endif %}
+
+{% endblock %}

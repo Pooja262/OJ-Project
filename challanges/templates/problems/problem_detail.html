@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ problem.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="problem-section">
+        <h2>{{ problem.title }}</h2>
+        <p>{{ problem.description }}</p>
+        <b>Example 1:</b>
+        <p style="background-color: #ffffff; color: #333333;">Input: {{ problem.sample_input1 }}</p>
+        <p style="background-color: #ffffff; color: #333333;">Output: {{ problem.sample_output1 }}</p>
+        <b>Example 2:</b>
+        <p style="background-color: #ffffff; color: #333333;">Input: {{ problem.sample_input2 }}</p>
+        <p style="background-color: #ffffff; color: #333333;">Output: {{ problem.sample_output2 }}</p>
+    </div>
+
+    <label for="language">Select Language:</label>
+    <select name="language" id="language" class="dropdown" required>
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+        <option value="c">C</option>
+        <option value="cpp">C++</option>
+    </select>
+    
+    <div class="editor-section">
+        <form id="codeForm" method="post" action="{% url 'run_code' problem.id %}" class="editor-form">
+            {% csrf_token %}
+            <label for="code">Your Code:</label>
+            <textarea name="code" id="code" rows="10" class="editor" placeholder="Write your code here..." required></textarea>
+
+            <label for="custom_input">Custom Input (optional):</label>
+            <textarea name="custom_input" id="custom_input" rows="3" class="input-area" placeholder="Enter custom input..."></textarea>
+
+            <div class="button-group">
+                <button type="button" id="run-button" class="button-run">Run with Custom Input</button>
+                <button type="submit" name="action" value="submit" class="button-submit">Submit for Test Cases</button>
+            </div>
+        </form>
+
+        <!-- Output section, positioned to the right of the code editor -->
+        <div class="output-section">
+            <h2>Output:</h2>
+            <pre id="output-box" class="output-box">Output will appear here...</pre>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* CSS to place output box next to the editor */
+    .editor-section {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .editor-form {
+        width: 50%;
+    }
+    .output-section {
+        width: 50%;
+        margin-left: 20px;
+    }
+    .output-box {
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        padding: 10px;
+        overflow: auto;
+    }
+</style>
+
+<script>
+    document.getElementById('run-button').addEventListener('click', function () {
+        handleCodeExecution('run');
+    });
+
+    document.querySelector('.button-submit').addEventListener('click', function (event) {
+        event.preventDefault();  // Prevent default form submission
+        handleCodeExecution('submit');
+    });
+
+    function handleCodeExecution(actionType) {
+    const language = document.getElementById('language').value;
+    const code = document.getElementById('code').value;
+    
+    const customInput = actionType === 'run' ? document.getElementById('custom_input').value : null;
+
+    // Prepare the payload based on the action type
+    const payload = {
+        code: code,
+        language: language,
+        action: actionType,
+    };
+    if (actionType === 'run') {
+        payload.custom_input = customInput;
+    }
+
+    fetch("{% url 'run_code' problem.id %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        const outputBox = document.getElementById('output-box');
+        outputBox.innerHTML = '';  // Clear previous output
+
+        if (data.error) {
+            outputBox.innerText = `Error: ${data.error}`;
+        } else {
+            if (actionType === 'submit') {
+                // Clear output and add verdict buttons for each test case result
+                data.verdict.forEach(v => {
+                    const verdictButton = document.createElement('button');
+                    verdictButton.innerText = v.status;  // Show "Accepted" or "Wrong Answer"
+                    verdictButton.style.color = 'white';
+                    
+                    // Style based on the correctness of the result
+                    if (v.status === 'Accepted') {
+                        verdictButton.style.backgroundColor = 'green';
+                    } else {
+                        verdictButton.style.backgroundColor = 'red';
+                    }
+
+                    // Optional: Tooltip with detailed info
+                    verdictButton.title = `Input: ${v.input}\nExpected: ${v.expected_output}\nActual: ${v.actual_output}`;
+                    
+                    outputBox.appendChild(verdictButton);
+                });
+            } else {
+                // Display custom input output for "run" action
+                outputBox.innerText = data.output;
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('output-box').innerText = "Error while executing the code.";
+    });
+}
+</script>
+{% endblock %}

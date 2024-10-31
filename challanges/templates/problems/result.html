@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Result for {{ problem.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Results for {{ problem.title }}</h1>
+
+    {% for verdict in verdicts %}
+        <div class="verdict">
+            <h3>Test Case {{ forloop.counter }}</h3>
+            <p><strong>Input:</strong> {{ verdict.input }}</p>
+            <p><strong>Expected Output:</strong> {{ verdict.expected_output }}</p>
+            <p><strong>Actual Output:</strong> {{ verdict.actual_output }}</p>
+            <p><strong>Result:</strong> <span class="{{ 'accepted' if verdict.result == 'Accepted' else 'wrong' }}">{{ verdict.result }}</span></p>
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+
+<style>
+    .accepted { color: green; }
+    .wrong { color: red; }
+</style>
+{% endblock %}
