@@ -1,10 +1,9 @@
-{% extends 'base.html' %} {% block title %}Dashboard{% endblock %} 
+{% extends 'base.html' %}Dashboard {% block title %}Dashboard{% endblock %} 
 {% block content %}
-<div class="jumbotron text-center bg-light">
-  <h1 class="display-4">Welcome Pooja</h1>
+<div class="jumbotron text-center bg-light" style= "padding-top: 0;">
+  <h1 class="display-4" >Welcome {{ user.username }}</h1>
   <p class="lead">
-    This is your dashboard where you can track your coding challenges and
-    progress.
+    Great coders aren’t born, they’re crafted through persistence and curiosity. Keep coding, keep conquering
   </p>
   <hr class="my-4" />
   <p>
@@ -12,16 +11,16 @@
     among others.
   </p>
   <a class="btn btn-primary btn-lg" href="{% url 'problem_list' %}" role="button">View Challenges</a>
-  <a class="btn btn-secondary b`tn-lg" href="#" role="button">View Leaderboard</a
+  <a class="btn btn-secondary btn-lg" href="#" role="button">View Leaderboard</a
   >
 </div>
 
-<div class="row">
+<div class="row" >
   <div class="col-lg-4">
     <div class="card text-center shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Challenges Solved</h5>
-        <p class="card-text display-4">10</p>
+        <p class="card-text display-4">{{ total_solved }}</p>
         <a href="#" class="btn btn-primary">View My Challenges</a>
       </div>
     </div>
@@ -31,7 +30,7 @@
     <div class="card text-center shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Total Submissions</h5>
-        <p class="card-text display-4">25</p>
+        <p class="card-text display-4">{{ submissions|length }}</p>
         <a href="#" class="btn btn-primary">View Submissions</a>
       </div>
     </div>
@@ -41,7 +40,9 @@
     <div class="card text-center shadow-sm">
       <div class="card-body">
         <h5 class="card-title">Rank</h5>
-        <p class="card-text display-4">#5</p>
+        <p class="card-text display-4">{% with forloop.counter as rank %}
+          #{{ rank }}
+        {% endwith %}</p>
         <a href="#" class="btn btn-primary">View Leaderboard</a>
       </div>
     </div>

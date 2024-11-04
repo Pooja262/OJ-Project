@@ -1,0 +1,15 @@
+<h3>Leaderboard</h3>
+<table>
+    <tr>
+        <th>Rank</th>
+        <th>User</th>
+        <th>Problems Solved</th>
+    </tr>
+    {% for entry in leaderboard_data %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ entry.user }}</td>
+        <td>{{ entry.total_solved }}</td>
+    </tr>
+    {% endfor %}
+</table>

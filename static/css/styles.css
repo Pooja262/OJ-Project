@@ -1,0 +1,47 @@
+body {
+    background-image: url('/static/images/code-background.jpg');
+    /* Path to your background image */
+    background-size: cover;
+    /* Ensures the image covers the entire area */
+    background-position: center;
+    /* Centers the image */
+    background-repeat: no-repeat;
+    /* Prevents the image from repeating */
+    height: 100vh;
+    /* Sets the height to cover full viewport */
+}
+
+.jumbotron {
+    position: relative;
+    overflow: hidden;
+}
+
+.jumbotron::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    /* Adjust the opacity as needed */
+    z-index: 1;
+    /* Place overlay below text */
+}
+
+.jumbotron h1,
+.jumbotron p {
+    position: relative;
+    /* Make text position above the overlay */
+    z-index: 2;
+}
+
+.navbar {
+    padding-bottom: 10px;
+    /* Adjust this value to reduce space */
+}
+
+.welcome-title {
+    padding-top: 0;
+    /* Remove or adjust this value as needed */
+}
