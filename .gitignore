@@ -33,7 +33,7 @@ staticfiles/
 *.env
 
 # Virtual environment
-venv/
+new_venv/
 env/
 ENV/
 env.bak/
