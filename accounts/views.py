@@ -1,12 +1,15 @@
-from urllib import response
+
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count,Q
+from django.contrib import messages
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 from django.utils import timezone
@@ -87,10 +90,6 @@ def register_user(request):
     
     
 
-from django.contrib import messages
-from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 
 def login_user(request):
     if request.method == "POST":
@@ -122,7 +121,10 @@ def logout_user(request):
     logout(request)
     request.session.flush()
     messages.success(request, 'Logout successful')
-    
+    response = HttpResponseRedirect('/login/')
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'  # Prevent caching
+    response['Pragma'] = 'no-cache'  # HTTP 1.0 compatibility
+    response['Expires'] = '0' 
     return redirect('/login/')  # Use the name of the URL pattern
 
 
