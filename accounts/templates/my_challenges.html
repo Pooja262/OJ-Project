@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>My Challenges</h2>
+    {% if challenges %}
+        <ul>
+            {% for challenge in challenges %}
+                <li>
+                    <strong>{{ challenge.title }}</strong><br>
+                    Description: {{ challenge.description }}<br>
+                    Created at: {{ challenge.created_at }}<br>
+                    {% if challenge.submission_date %}
+                        Submitted on: {{ challenge.submission_date }}
+                    {% else %}
+                        <em>Not submitted yet</em>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <p>No challenges found. Looks like you haven't started solving any challenges yet!</p>
+    <p>Head over to the <a href="{% url 'problem_list' %}">Challenges Page</a> and start solving some problems!</p>
+    <p>Get started and level up your coding skills!</p>
+    {% endif %}
+{% endblock %}

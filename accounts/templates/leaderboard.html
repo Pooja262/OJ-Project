@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaderboard</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            width: 300px;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Leaderboard</h1>
+    <div class="container">
+        {% for entry in leaderboard %}
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Rank</h5>
+                    <p class="card-text display-4">
+                        {% with forloop.counter as rank %}
+                            #{{ rank }}
+                        {% endwith %}
+                    </p>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ entry.user.username }}</h6>
+                    <p class="card-text">Score: {{ entry.score }}</p>
+                    <a href="#" class="btn btn-primary">View Leaderboard</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No leaderboard entries found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

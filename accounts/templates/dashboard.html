@@ -11,41 +11,42 @@
     among others.
   </p>
   <a class="btn btn-primary btn-lg" href="{% url 'problem_list' %}" role="button">View Challenges</a>
-  <a class="btn btn-secondary btn-lg" href="#" role="button">View Leaderboard</a
+  <a class="btn btn-secondary btn-lg" href="{% url 'leaderboard' %}" role="button">View Leaderboard</a
   >
 </div>
 
 <div class="row" >
-  <div class="col-lg-4">
-    <div class="card text-center shadow-sm">
+<div class="col-lg-4">
+  <div class="card text-center shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">Challenges Solved</h5>
-        <p class="card-text display-4">{{ total_solved }}</p>
-        <a href="#" class="btn btn-primary">View My Challenges</a>
+          <h5 class="card-title">Total Submissions</h5>
+          <p class="card-text display-4">{{ total_submissions }}</p>
+          <a href="{% url 'submissions-list' %}" class="btn btn-primary">View Submissions</a>
       </div>
-    </div>
   </div>
+</div>
 
-  <div class="col-lg-4">
-    <div class="card text-center shadow-sm">
+<div class="col-lg-4">
+  <div class="card text-center shadow-sm">
       <div class="card-body">
-        <h5 class="card-title">Total Submissions</h5>
-        <p class="card-text display-4">{{ submissions|length }}</p>
-        <a href="#" class="btn btn-primary">View Submissions</a>
+          <h5 class="card-title">Problems Solved</h5>
+          <p class="card-text display-4">{{ problems_solved }}</p>
+          <a href="{% url 'my_challenges' %}" class="btn btn-primary">View My Challenges</a>
       </div>
-    </div>
   </div>
+</div>
 
-  <div class="col-lg-4">
-    <div class="card text-center shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">Rank</h5>
-        <p class="card-text display-4">{% with forloop.counter as rank %}
-          #{{ rank }}
-        {% endwith %}</p>
-        <a href="#" class="btn btn-primary">View Leaderboard</a>
-      </div>
+<div class="col-lg-4">
+  <div class="card text-center shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Rank</h5>
+      
+      <p class="card-text display-5">
+        #{{ rank }}
+      </p>
+      
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

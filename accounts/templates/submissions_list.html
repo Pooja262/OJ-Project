@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>My Submissions</h2>
+    {% if submissions %}
+        <ul>
+            {% for submission in submissions %}
+                <li>
+                    <strong>{{ submission.challenge.title }}</strong><br>
+                    Status: {{ submission.status }}<br>
+                    Submitted on: {{ submission.submission_date }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No submissions found.</p>
+    {% endif %}
+{% endblock %}
